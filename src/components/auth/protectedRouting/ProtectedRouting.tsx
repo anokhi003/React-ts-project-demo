@@ -1,4 +1,6 @@
+import { setUserData } from "@/redux/slices/supportSlice";
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
@@ -9,6 +11,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const token = localStorage.getItem("userToken");
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!token) {

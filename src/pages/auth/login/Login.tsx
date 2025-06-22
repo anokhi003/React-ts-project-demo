@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import useLogin from "@/hooks/useLogin";
 import { FormProvider, UseFormReturn } from "react-hook-form";
 import { UseRenderFields } from "@/hooks/useRenderFields";
-import { setUserData } from "@/redux/slices/supportSlice";
+import { clearAllState, setUserData } from "@/redux/slices/supportSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store/store";
 
@@ -22,18 +22,18 @@ interface LoginFormFields {
 function Login() {
   const dispatch = useDispatch();
   const { customError, handleLogin, isPending, form } = useLogin();
+  
   const userData = useSelector((state: RootState) => state.fields.userData);
-  console.log('userData :>> ', userData);
   const {
     handleSubmit,
     formState: { errors },
   } = form as UseFormReturn<any>; // Use more specific type if you have one
 
   useEffect(() => {
-    if (userData) {
+    if (!userData) {
       localStorage.removeItem("userToken");
+      dispatch(clearAllState());
     }
-    dispatch(setUserData(null));
   }, [userData, dispatch]);
 
   const loginFormFields: LoginFormFields[] = [

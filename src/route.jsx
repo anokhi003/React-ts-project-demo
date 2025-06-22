@@ -15,9 +15,9 @@ export const router = createBrowserRouter([
     path: "/",
     element: (
       // Uncomment when ready to use auth
-      // <ProtectedRouting requireTenantId={true}>
+      <ProtectedRouting requireTenantId={true}>
         <DefaultLayout />
-      // </ProtectedRouting>
+      </ProtectedRouting>
     ),
     children: [
       {

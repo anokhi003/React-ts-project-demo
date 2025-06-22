@@ -107,6 +107,18 @@ export const UseRenderFields: React.FC<UseRenderFieldsProps> = ({
         </div>
       );
 
+    case "STRING":
+      return (
+        <div
+          key={item.fieldId}
+          className={`flex flex-row justify-between gap-2 w-full relative`}
+        >
+          <div className="w-full pt-[2px]">
+            <FormInput  {...commonProps} />
+          </div>
+        </div>
+      );
+      
     case "PASSWORD":
       return (
         <AnimatePresence>
@@ -125,18 +137,6 @@ export const UseRenderFields: React.FC<UseRenderFieldsProps> = ({
             <PasswordInput {...commonProps} />
           </motion.div>
         </AnimatePresence>
-      );
-
-    case "STRING":
-      return (
-        <div
-          key={item.fieldId}
-          className={`flex flex-row justify-between gap-2 w-full relative`}
-        >
-          <div className="w-full pt-[2px]">
-            <FormInput  {...commonProps} />
-          </div>
-        </div>
       );
 
     case "PHONE":

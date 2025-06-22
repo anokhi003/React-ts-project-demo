@@ -20,8 +20,9 @@ import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Breadcrumb, BreadcrumbList } from "../ui/breadcrumb";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSelectedMenu } from "@/redux/slices/supportSlice";
+import { RootState } from "@/redux/store/store";
 
 // Types
 interface RouteItem {
@@ -47,7 +48,7 @@ const SidebarComponent: React.FC<SidebarProps> = ({ open, sidebarRoutes }) => {
   const { isMobile } = useSidebar();
   const { pathname } = useLocation();
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({});
-
+  const userData = useSelector((state: RootState) => state.fields.userData);
   const toggleSubmenu = (title: string) => {
     setOpenSubmenus((prev) => ({
       ...prev,
@@ -78,8 +79,8 @@ const SidebarComponent: React.FC<SidebarProps> = ({ open, sidebarRoutes }) => {
     if (selectedMenuItem) {
       dispatch(
         setSelectedMenu({
-          menuId: selectedMenuItem.menuId,
-          title: selectedMenuItem.title,
+          menuId: selectedMenuItem?.menuId || "",
+          title: selectedMenuItem.title || "",
           route: selectedMenuItem.route,
         })
       );
@@ -91,8 +92,8 @@ const SidebarComponent: React.FC<SidebarProps> = ({ open, sidebarRoutes }) => {
   const handleMenuClick = (item: RouteItem) => {
     dispatch(
       setSelectedMenu({
-        menuId: item.menuId,
-        title: item.title,
+        menuId: item?.menuId || "",
+        title: item?.title || "",
         route: item.route,
       })
     );
@@ -159,22 +160,20 @@ const SidebarComponent: React.FC<SidebarProps> = ({ open, sidebarRoutes }) => {
                         <div className="h-12 w-12 flex items-center justify-center">
                           {item.icon && (
                             <item.icon
-                              className={`${
-                                item.route === pathname ||
-                                (item.route !== "/" && pathname.includes(item.route))
+                              className={`${item.route === pathname ||
+                                  (item.route !== "/" && pathname.includes(item.route))
                                   ? "text-main"
                                   : "text-sidebar-foreground"
-                              } pr-[5px] fill-current`}
+                                } pr-[5px] fill-current`}
                             />
                           )}
                         </div>
                         <span
-                          className={`${
-                            item.route === pathname ||
-                            (item.route !== "/" && pathname.includes(item.route))
+                          className={`${item.route === pathname ||
+                              (item.route !== "/" && pathname.includes(item.route))
                               ? "text-main"
                               : "text-sidebar-foreground"
-                          }`}
+                            }`}
                         >
                           {item.title}
                         </span>
@@ -187,11 +186,10 @@ const SidebarComponent: React.FC<SidebarProps> = ({ open, sidebarRoutes }) => {
                             className="ml-auto h-4 w-4"
                           >
                             <ChevronRight
-                              className={`ml-auto size-4 ${
-                                pathname.includes(item.route)
+                              className={`ml-auto size-4 ${pathname.includes(item.route)
                                   ? "text-main"
                                   : "text-sidebar-foreground"
-                              }`}
+                                }`}
                             />
                           </motion.div>
                         )}
@@ -221,11 +219,10 @@ const SidebarComponent: React.FC<SidebarProps> = ({ open, sidebarRoutes }) => {
                                   className={cn("p-0 relative py-5")}
                                 >
                                   <span
-                                    className={`${
-                                      pathname === child.route
+                                    className={`${pathname === child.route
                                         ? "text-main"
                                         : "text-sidebar-foreground"
-                                    } text-xs pl-2`}
+                                      } text-xs pl-2`}
                                   >
                                     {child.title}
                                   </span>
@@ -257,7 +254,12 @@ const SidebarComponent: React.FC<SidebarProps> = ({ open, sidebarRoutes }) => {
                   />
                   <AvatarFallback className="rounded-lg">JD</AvatarFallback>
                 </Avatar>
-                <p className="text-sm text-sidebar-foreground">John Doe</p>
+                <p className="text-sm text-sidebar-foreground">
+                  {(() => {
+                    if (!userData?.firstName) return "John Doe";
+                    return `${userData.firstName}${userData.lastName ? ` ${userData.lastName}` : ''}`;
+                  })()}
+                </p>
               </BreadcrumbList>
             </Breadcrumb>
           </SidebarMenuItem>

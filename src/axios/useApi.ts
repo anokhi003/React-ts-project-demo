@@ -1,95 +1,84 @@
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
-import axiosInstance from "./AxiosInterceptor";
+import axiosInstance from "@/axios/AxiosInterceptor";
+import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "sonner";
+
+export interface ApiResponse<T = any> {
+  data?: T;
+  statusCode?: number;
+  message?: string;
+}
 
 interface ApiRequestParams {
   url: string;
-  method: AxiosRequestConfig["method"];
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   data?: any;
-  token?: string | undefined
+  token?: string;
   showToast?: boolean;
   isApplicationJson?: boolean;
 }
 
-interface ApiResponse<T = any> {
-  success: boolean;
-  data: T;
-  message?: string;
-  status?: number;
-}
-
-const apiRequest = async <T = any>({
+export const apiRequest = async <T>({
   url,
   method,
   data,
   token,
   showToast = true,
   isApplicationJson = false,
-}: ApiRequestParams): Promise<{ success: boolean; data?: T }> => {
+}: ApiRequestParams): Promise<ApiResponse<T>> => {
   try {
-    const headersProp = token ? { Authorization: `Bearer ${token}` } : {};
-    const response: AxiosResponse<ApiResponse<T>> = await axiosInstance({
+    const headers: Record<string, string> = {
+      "Content-Type": isApplicationJson ? "application/json" : "multipart/form-data",
+    };
+
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    const response: AxiosResponse = await axiosInstance({
       url,
       method,
       data,
-      headers: {
-        "Content-Type": isApplicationJson
-          ? "application/json"
-          : "multipart/form-data",
-        ...headersProp,
-      },
+      headers,
     });
-
-    console.log("🚀 ~ response:", response.data);
-
-    if (response.data.success) {
-      if (showToast) {
-        toast.success(response.data.message || "Success");
-      }
+    // Fix: Destructure from response.data instead of response
+    const { statusCode, message, data: responseData } = response;
+    
+    if (statusCode === 200) {
+      if (showToast) toast.success(message || "Success");
       return {
-        success: true,
-        data: response.data.data,
+        statusCode,
+        message,
+        data: responseData
       };
     } else {
-      if (response.status === 401) {
+      if (statusCode === 401) {
         localStorage.clear();
-        toast.error(response.data.message || "Unauthorized");
-      } else {
-        toast.error(response.data.message || "Error occurred");
+        window.location.href = "/login";
       }
+      if (showToast) toast.error(message || "Error occurred");
       return {
-        success: false,
-        data: response.data.data,
+        statusCode,
+        message,
+        data: responseData
       };
     }
   } catch (error) {
-    console.log("🚀 ~ error:", error);
-
-    const axiosError = error as AxiosError<ApiResponse>;
-
+    console.log('error :>> ', error);
+    const axiosError = error as AxiosError<any>;
     let errorMsg = "Something went wrong!";
 
     if (axiosError.response) {
-      if (axiosError.response.status === 401) {
+      const { statusCode, data } = axiosError.response.data || {};
+      if (statusCode === 401) {
         localStorage.clear();
         window.location.href = "/login";
-        return { success: false }; // To satisfy return type
       }
-
-      const responseData = axiosError.response.data;
-      if (responseData && typeof responseData === "object") {
-        errorMsg = responseData.message || errorMsg;
-      }
+      errorMsg = data?.message || errorMsg;
     } else if (axiosError.message) {
       errorMsg = axiosError.message;
     }
 
-    if (toast) {
-      toast.error(errorMsg);
-    }
-
+    if (showToast) toast.error(errorMsg);
     throw error;
   }
 };
-
-export default apiRequest;

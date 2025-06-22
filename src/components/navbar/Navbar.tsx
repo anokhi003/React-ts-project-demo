@@ -13,10 +13,10 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
-import { useUserProfileMaster } from "@/services/fetchUserProfile";
 import defaultImg from "../../assets/images/default.svg";
 import { Breadcrumb, BreadcrumbList } from "../ui/breadcrumb";
 import { useTheme } from "@/lib/contexts/theme-provider";
+import { useSelector } from "react-redux";
 
 const Navbar: React.FC = () => {
   const { theme, setTheme } = useTheme();
@@ -27,7 +27,12 @@ const Navbar: React.FC = () => {
   const [profileImg, setProfileImg] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
 
-  const { fetchUserProfileDetails } = useUserProfileMaster();
+  // useEffect(() => {
+  //   if (userData) {
+  //     setProfileImg(userData.profileImage || defaultImg);
+  //     setUserName(userData.firstName + " " + userData.lastName);
+  //   }
+  // }, [userData]);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -35,9 +40,7 @@ const Navbar: React.FC = () => {
   };
 
   const toggleTheme = () => {
-    console.log('theme :>> ', theme);
     const newTheme = theme === "light" ? "dark" : "light";
-    console.log('newTheme :>> ', newTheme);
     setTheme(newTheme);
   };
 

@@ -3,7 +3,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import React, { ReactNode } from "react";
 
@@ -36,11 +35,10 @@ const FormModalLayout: React.FC<FormModalLayoutProps> = ({
   children,
   className = "",
   maxWidth = "lg",
-  isShowCloseIcon = true,
+  isShowCloseIcon = true
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogTitle></DialogTitle>
       <DialogContent
         className={`
           ${className}
@@ -60,10 +58,7 @@ const FormModalLayout: React.FC<FormModalLayoutProps> = ({
         isShowCloseIcon={isShowCloseIcon}
       >
         <DialogHeader>
-          <DialogTitle className="text-2xl font-semibold text-primary">
-            {title}
-          </DialogTitle>
-          <DialogDescription></DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         <div className="p-2 flex-grow overflow-y-auto">{children}</div>
       </DialogContent>

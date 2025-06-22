@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useForm } from "react-hook-form";
 import DataTable from "@/components/data-table/DataTable";
 import generateColumns from "@/hooks/useColumns";
+import Header from "@/components/header/Header";
 
 interface MasterType {
   id: number;
@@ -42,54 +42,23 @@ const Dashboard: React.FC = () => {
   ];
 
   const columnFields: ColumnField[] = [
-    { fieldName: "name", defaultCaption: "Name" },
+    { fieldName: "name", defaultCaption: "Name", width:30 },
     { fieldName: "description", defaultCaption: "Description" },
     { fieldName: "createdDate", defaultCaption: "Created Date" },
   ];
 
   return (
-    <div className="space-y-3 p-4">
+    <>
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+         <Header headerLabel={"Dashboard"} />
       </div>
-
-      {/* Metric Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-blue-50 dark:bg-blue-950">
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$4,876.98</div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-lime-100 dark:bg-lime-950">
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Total Profit</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$762.10</div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-purple-100 dark:bg-purple-950">
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1056</div>
-          </CardContent>
-        </Card>
-      </div>
-
       {/* Data Table */}
       <DataTable
-        columns={generateColumns(columnFields)}
+        columns={generateColumns(columnFields, false, false)}
         data={masterType}
       />
-    </div>
+    </>
   );
 };
 

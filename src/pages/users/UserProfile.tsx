@@ -10,7 +10,6 @@ import Loader from "@/components/loader/Loader";
 import { UseRenderFields } from "@/hooks/useRenderFields";
 import Header from "@/components/header/Header";
 import { Button } from "@/components/ui/button";
-import { getOptions } from "@/lib/utils";
 
 interface LoginFormField {
   fieldId: string;
@@ -26,21 +25,13 @@ interface LoginFormField {
 
 interface UserProfileFormData {
   profilePicture?: File | null;
-  userName?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
   password?: string;
-  age?: number;
-  state?: string;
-  city?: string[];
-  file?: File | null;
-  birthdate?: string; // or Date, depends on your Datepicker implementation
-  [key: string]: any;
+  dob?: string; // or Date, depends on your Datepicker implementation
 }
 
-interface StateType {
-  stateName: string;
-  stateId: string;
-}
 function UserProfile() {
   const queryClient = useQueryClient();
 
@@ -96,64 +87,72 @@ function UserProfile() {
     setProfileData(null);
   };
 
-  const states: StateType[] = [
-    { stateName: "Admin", stateId: "admin" },
-    { stateName: "User", stateId: "user" },
-    { stateName: "Guest", stateId: "guest" },
-  ];
-
-  const dropdownOptionsMap = useMemo(
-    () => ({
-      state: getOptions(states, "stateId", "stateName"),
-    }),
-    [states]
-  );
-
 
   const loginFormFields: LoginFormField[] = [
-    {
-      fieldId: "3",
-      fieldName: "password",
-      fieldValueType: "PASSWORD",
-      defaultCaption: "Password",
+     {
+      fieldId: "1",
+      fieldName: "firstName",
+      fieldValueType: "STRING",
+      defaultCaption: "First Name",
+      isMandatory: true,
+    },
+     {
+      fieldId: "2",
+      fieldName: "lastName",
+      fieldValueType: "STRING",
+      defaultCaption: "Last Name",
       isMandatory: true,
     },
     {
-      fieldId: "2",
+      fieldId: "3",
       fieldName: "email",
       fieldValueType: "EMAIL",
       defaultCaption: "Email",
       isMandatory: true,
     },
-    {
+     {
       fieldId: "4",
-      fieldName: "age",
-      fieldValueType: "INT",
-      defaultCaption: "Age",
-      isMandatory: true,
-    },
-    {
-      fieldId: "6",
-      fieldName: "birth",
+      fieldName: "DOB",
       fieldValueType: "DATE",
-      defaultCaption: "bith",
+      defaultCaption: "Birth Date",
       isMandatory: true,
     },
-    {
-      fieldId: "5",
-      fieldName: "state",
-      fieldValueType: "DROPDOWN",
-      defaultCaption: "State",
-      isMandatory: true,
-    },
-    {
-      fieldId: "7",
-      fieldName: "file",
-      fieldValueType: "FILE",
-      defaultCaption: "Role",
-      isMandatory: true,
-      enableImageView: true,
-    },
+    // {
+    //   fieldId: "4",
+    //   fieldName: "password",
+    //   fieldValueType: "PASSWORD",
+    //   defaultCaption: "Password",
+    //   isMandatory: true,
+    // },
+    // {
+    //   fieldId: "4",
+    //   fieldName: "age",
+    //   fieldValueType: "INT",
+    //   defaultCaption: "Age",
+    //   isMandatory: true,
+    // },
+    // {
+    //   fieldId: "6",
+    //   fieldName: "birth",
+    //   fieldValueType: "DATE",
+    //   defaultCaption: "bith",
+    //   isMandatory: true,
+    // },
+    // {
+    //   fieldId: "5",
+    //   fieldName: "state",
+    //   fieldValueType: "DROPDOWN",
+    //   defaultCaption: "State",
+    //   isMandatory: true,
+    // },
+    // {
+    //   fieldId: "7",
+    //   fieldName: "file",
+    //   fieldValueType: "FILE",
+    //   defaultCaption: "Role",
+    //   isMandatory: true,
+    //   enableImageView: true,
+    // },
   ];
 
   return (
@@ -229,7 +228,6 @@ function UserProfile() {
                       item={item}
                       form={form}
                       errors={errors as any}
-                      dropdownOptionsMap={dropdownOptionsMap}
                     />
                   ))}
                 </div>
