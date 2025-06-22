@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Poppins";
+  font-weight: 500;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+@layer base {
+  :root {
+    --main: 199 100% 33.3%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 20%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 95%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%; */
+
+    --success: 138 76.5% 96.7%; /* Light green */
+    --success-foreground: 142 76.2% 36.3%;
+
+    --error: 356 100% 97.3%; /* Light red background */
+    --error-foreground: 0 72.2% 50.6%; /* Dark red text */
+
+    --warning: 48 100% 96.1%; /* Light orange */
+    --warning-foreground: 45 93.4% 47.5%;
+
+    --info: 214 100% 96.9%; /* Light blue */
+    --info-foreground: 221.2 83.2% 53.3%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --border: 214.3 31.8% 91.4%;
+    --modal-bg: 0 0% 100%;
+    --text-color: 199 100% 33%;
+  }
+
+  .dark {
+    --main: 200 100% 47%;
+    --background: 225 5% 10%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 25%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar-background: 0 0% 20%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%; */
+
+    --success: 145 50% 35%; /* A deep, rich green background */
+    --success-foreground: 145 50% 85%; /* A bright, contrasting green text */
+
+    --error: 0 70% 35%; /* A bold dark red background */
+    --error-foreground: 0 80% 80%; /* A lighter red/pink for text contrast */
+
+    --warning: 40 70% 35%; /* A strong dark orange */
+    --warning-foreground: 40 70% 80%; /* A light, clear orange text */
+
+    --info: 210 60% 35%; /* A deep, dark blue background */
+    --info-foreground: 210 60% 80%; /* A light blue for text */
+
+    --muted: 210 15% 20%; /* A dark, nearly black blue-gray */
+    --muted-foreground: 210 15% 65%; /* A medium-light gray-blue for text */
+
+    --border: 217.2 32.6% 17.5%;
+    --modal-bg: 0 0% 24%;
+    --text-color: 0 0% 96%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e4e4e7;
+}
+
+/* Dark mode scrollbar styles */
+.dark ::-webkit-scrollbar-track {
+  background: hsl(0 0% 25%);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: hsl(0 0% 50%);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: hsl(0 0% 60%);
+}
